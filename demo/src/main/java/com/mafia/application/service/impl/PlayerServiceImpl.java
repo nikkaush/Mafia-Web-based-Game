@@ -20,10 +20,14 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public boolean createPlayer(Player p) {
+		
 		p.setAlive(true);
+		
 //		p.setRole("");
 //		p.setGameRoomId(0);
+		
 		System.out.println(p.getPlayerName());
+		
 		return true;
 	}
 
