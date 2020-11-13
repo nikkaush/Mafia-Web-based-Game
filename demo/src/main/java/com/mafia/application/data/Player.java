@@ -3,11 +3,19 @@
 public class Player {
 	
 	String playerId;
+	public String getPlayerId() {
+		return playerId;
+	}
+
 	String playerName;
 	String role;
 	String gameRoomId;
 	boolean isAlive;
 	boolean isHost;
+	
+	boolean turn = false;
+	boolean selection = false;
+	String target = "";
 	
 	public Player(String playerId, String playerName, String role, String gameRoomId, boolean isHost) {
 		this.playerId = playerId;

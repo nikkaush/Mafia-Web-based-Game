@@ -14,6 +14,7 @@ public class GameRoom {
 	
 	private List<Player> playerList;
 	
+	
 //	public String getGameId() {
 //		return gameId;
 //	}
