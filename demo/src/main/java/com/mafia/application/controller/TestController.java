@@ -75,6 +75,11 @@ public class TestController {
 		return playerService.currentGame(gameId);
 	}
 	
+	@GetMapping(value = "/gamePlay/refreshSelection1/{gameId}")
+	public GamePlay refreshGame1(@PathVariable String gameId) {
+		return playerService.currentGameObj(gameId);
+	}
+	
 	@PutMapping(value = "/gamePlay/updateSelection/{gameId}/{pid}/{sid}")
 	public void gameSelection(@PathVariable String gameId, @PathVariable String pid, @PathVariable String sid) {
 		playerService.updateSelection(gameId, pid, sid);

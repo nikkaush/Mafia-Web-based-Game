@@ -24,6 +24,8 @@ public interface PlayerService {
 	
 	Map<String, List<String>> currentGame(String gameId);
 	
+	GamePlay currentGameObj(String gameId);
+	
 	void updateSelection(String gameId, String playerId, String selectionId);
 	
 	

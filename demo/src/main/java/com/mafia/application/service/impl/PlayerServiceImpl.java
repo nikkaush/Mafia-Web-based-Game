@@ -83,9 +83,12 @@ public class PlayerServiceImpl implements PlayerService {
 	
 	@Override
 	public Map<String, List<String>> currentGame(String gameId) {
-		Map<String, List<String>> pp = playMap.get(gameId).getDisplayMap();
-		return pp;
-//		return playMap.get(gameId).getDisplayMap();
+		return playMap.get(gameId).getDisplayMap();
+	}
+	
+	@Override
+	public GamePlay currentGameObj(String gameId) {
+		return playMap.get(gameId);
 	}
 	
 
@@ -93,6 +96,9 @@ public class PlayerServiceImpl implements PlayerService {
 	public void updateSelection(String gameId, String playerId, String selectionId) {
 		playMap.get(gameId).updateSelection(playerId, selectionId);
 	}
+
+
+	
 
 
 	

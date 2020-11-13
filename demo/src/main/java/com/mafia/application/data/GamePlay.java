@@ -6,25 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 public class GamePlay {
-	int gameTime = 0;
 	
-
+	int gameTime = 0;
 	public int getGameTime() {
 		return gameTime;
 	}
 
 
-	int mafiaTime = 700;
+	int mafiaTime = 120;
 	int doctorTime = 60;
 	int inspectorTime = 60;
 	int voteTime = 60;
 //	String[] killed = new String[] {"", ""};
 	
 	List<String> selectionList = new ArrayList<>();
-	
 	Map<String, String> currSelectionMap;
-	Map<String, List<String>> displayMap;
 	
+	Map<String, List<String>> displayMap;
 	public Map<String, List<String>> getDisplayMap() {
 		return this.displayMap;
 	}
@@ -36,6 +34,10 @@ public class GamePlay {
 	
 
 	List<Player> playerList;
+	public List<Player> getPlayerList() {
+		return playerList;
+	}
+
 
 	int numMafiaAlive = 0;
 	int numCitizenAlive = 0;
@@ -71,14 +73,20 @@ public class GamePlay {
 			String currSelectionId = currSelectionMap.get(playerId);
 			
 			if(!currSelectionId.equals(selectionId)) {
+				currSelectionMap.put(playerId, selectionId);
 				
 				displayMap.putIfAbsent(selectionId, new ArrayList<>());
 				displayMap.get(selectionId).add(playerId);
 				
+				
+				
 				displayMap.get(currSelectionId).remove(playerId);
 				
-				if(displayMap.get(currSelectionId).size() == 0)
+				if(displayMap.get(currSelectionId).size() == 0) {
 					displayMap.remove(currSelectionId);
+//					currSelectionMap.remove(currSelectionId);
+				}
+					
 				
 			} 
 		} else {
