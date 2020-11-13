@@ -13,11 +13,10 @@ public class GamePlay {
 	}
 
 
-	int mafiaTime = 120;
-	int doctorTime = 60;
-	int inspectorTime = 60;
+	int mafiaTime = 30;
+	int doctorTime = 30;
+	int inspectorTime = 30;
 	int voteTime = 60;
-//	String[] killed = new String[] {"", ""};
 	
 	List<String> selectionList = new ArrayList<>();
 	Map<String, String> currSelectionMap;
@@ -31,7 +30,10 @@ public class GamePlay {
 	String killed = "";
 	
 	String returnMessage = "";
-	
+	public String getReturnMessage() {
+		return returnMessage;
+	}
+
 
 	List<Player> playerList;
 	public List<Player> getPlayerList() {
@@ -82,10 +84,8 @@ public class GamePlay {
 				
 				displayMap.get(currSelectionId).remove(playerId);
 				
-				if(displayMap.get(currSelectionId).size() == 0) {
+				if(displayMap.get(currSelectionId).size() == 0)
 					displayMap.remove(currSelectionId);
-//					currSelectionMap.remove(currSelectionId);
-				}
 					
 				
 			} 
@@ -109,7 +109,7 @@ public class GamePlay {
 				setTurn(roles[i]);
 				
 				this.gameTime = playTimes[i];
-				System.out.println(this.gameTime);
+				System.out.println(this.gameTime + "\n" + roles[i]);
 				
 				try {
 					Thread.sleep(playTimes[i]*1000);
@@ -126,10 +126,13 @@ public class GamePlay {
 	public void setTurnHelper(int t) {
 		if(t == 0) {
 			setTurn("Mafia");
+			returnMessage = "Select unanimously to kill someone.";
 		} else if(t == 1) {
 			setTurn("Doctor");
+			returnMessage = "Select someone to save. \n You can also save yourself";
 		} else if(t == 2) {
 			setTurn("Inspector");
+			returnMessage = "Select someone to see if they are Mafia.";
 		} else {
 			setTurn("Vote");
 		}
@@ -168,15 +171,6 @@ public class GamePlay {
 		}
 		
 		clearSelection();
-		
-//		int i = 0;
-//		for(Player p : playerList) {
-//			if(p.selection) {
-//				p.selection = false;
-//				selectionList.add(p.playerId);
-//			}
-//		}
-		
 	}
 	
 	public void doctorAction() {
@@ -186,14 +180,6 @@ public class GamePlay {
 		}
 		
 		clearSelection();
-		
-//		for(Player p : playerList) {
-//			if(p.selection) {
-//				p.selection = false;
-//				saved = p.playerId;
-//				break;
-//			}
-//		}
 	}
 	
 	public void inspectorAction() {
@@ -216,21 +202,9 @@ public class GamePlay {
 					returnMessage = "You caught the Mafia";
 				else
 					returnMessage = "You didn't caught the Mafia";
-			} else {
-				returnMessage = "You didn't caught the Mafia";
+				break;
 			}
 		}
-		
-//		for(Player p : playerList) {
-//			if(p.selection) {
-//				p.selection = false;
-//				if(p.role.equals("mafia"))
-//					returnMessage = "You caught the Mafia";
-//				else
-//					returnMessage = "You didn't caught the Mafia";
-//				break;
-//			}
-//		}
 		
 		try {
 			Thread.sleep(2000);
@@ -247,6 +221,7 @@ public class GamePlay {
 		
 		String msg1 = "";
 		String msg2 = "";
+		String msg3 = "";
 		
 		
 		int votes = 0;
@@ -286,7 +261,8 @@ public class GamePlay {
 						
 				}
 			}
-			returnMessage = msg1 + "\n" + msg2;
+			msg3 = numMafiaAlive + " Mafia remaining.";
+			returnMessage = msg1 + "\n" + msg2 + "\n" + msg3;
 		}
 		
 		
