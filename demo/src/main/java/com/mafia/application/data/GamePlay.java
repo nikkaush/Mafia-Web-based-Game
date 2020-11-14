@@ -306,7 +306,23 @@ public class GamePlay {
 
 	
 	public boolean isGame() {
-		return (numMafiaAlive == 0) || (numCitizenAlive == numMafiaAlive);
+		boolean gameCont = (numMafiaAlive == 0) || (numCitizenAlive == numMafiaAlive);
+		if (numMafiaAlive == 0) {
+			for (Player player : this.playerList) {
+				if ((!player.role.equals("Mafia")) && (player.isAlive)) {
+					player.wonGame();
+				}
+			}
+		} else if (numCitizenAlive == numMafiaAlive) {
+			for (Player player : this.playerList) {
+				if (player.role.equals("Mafia")) {
+					player.wonGame();
+				}
+			}
+		}
+		
+		return gameCont;
+		
 	}
 
 }

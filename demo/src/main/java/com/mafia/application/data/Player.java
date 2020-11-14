@@ -1,4 +1,4 @@
- package com.mafia.application.data;
+package com.mafia.application.data;
 
 public class Player {
 	
@@ -12,10 +12,13 @@ public class Player {
 	String gameRoomId;
 	boolean isAlive;
 	boolean isHost;
+	boolean isMafia;
 	
 	boolean turn = false;
 	boolean selection = false;
 	String target = "";
+	boolean won = false;
+	int correctVotes = 0;
 	
 	public Player(String playerId, String playerName, String role, String gameRoomId, boolean isHost) {
 		this.playerId = playerId;
@@ -24,6 +27,19 @@ public class Player {
 		this.gameRoomId = gameRoomId;
 		this.isAlive = true;
 		this.isHost = isHost;
+		this.isMafia = this.role == "Mafia";
+	}
+	
+	public boolean getWon() {
+		return this.won;
+	}
+	
+	public boolean isMafia() {
+		return this.isMafia;
+	}
+	
+	public int correctVotes() {
+		return this.correctVotes;
 	}
 	
 	public String getPlayerName() {
@@ -57,9 +73,17 @@ public class Player {
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
-		
+
 //	public String toString() {
 //		return this.playerName + " " + this.role + " " + this.gameRoomId + " " + this.isAlive;
 //	}
+	
+	public void correctVote() {
+		this.correctVotes += 1;
+	}
+	
+	public void wonGame() {
+		this.won = true;
+	}
 
 }
