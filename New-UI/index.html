@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Nikhil Kaushik">
+<script type="text/javascript" src="./sc.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style>
+#myDIV {
+  width: 100%;
+  padding: 50px 0;
+  text-align: center;
+  background-color: lightblue;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<div id="joinhost">
+  <button onclick="toggleHostDiv(); hostGame();">Host a Game</button>
+  <div onsubmit="toggleHostDiv(); joinGame(); ">
+     <input name="tb1" type="text"> <input type="button" value="Join a game" onclick="toggleHostDiv(); joinGame(document.getElementsByName('tb1')[0].value)">
+  </div>
+  
+</div>
+
+<div id="gameRoom">
+GameRoom
+</div>
+
+
+<script>
+  toggleRoomDiv();
+
+  function hostGame() {
+    console.log('hosting game');
+    toggleRoomDiv();
+    hostGame();
+    
+  }
+
+
+  function joinGame(gameId) {
+
+    console.log('here 3', gameId)
+
+    const options = {
+      headers: {'Access-Control-Allow-Origin': '*'}
+    };
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+    // const url = 'http://localhost:5000/'
+
+    var joinAPI = 'mafia/v1/join/';
+
+    var formUrl = url+joinAPI+gameId
+
+    
+
+    axios.post(formUrl, {
+      pid: 'p010',
+      pname: 'nk10'
+    }, options)
+    .then((response) => {
+      // gameId = response.data.playerList[0].gameRoomId;
+      // console.log("here",response.data.playerList[0].gameRoomId);
+      // setInterval(refreshGame(gameId), 2000);
+      toggleRoomDiv();
+      setInterval( function() { refreshGame(gameId); }, 500 );
+      
+
+    }, (error) => {
+      console.log(error);
+    });
+
+
+  }
+
+
+  function hostGame() {
+      
+    const options = {
+      headers: {'Access-Control-Allow-Origin': '*'}
+    };
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+    // const url = 'http://localhost:5000/'
+
+    var hostAPI = 'mafia/v1/host/';
+
+    var formUrl = url+hostAPI
+
+    var gameId ;
+
+    axios.post(formUrl, {
+      pid: 'p003',
+      pname: 'nk3'
+    }, options)
+    .then((response) => {
+      gameId = response.data.playerList[0].gameRoomId;
+      // console.log("here",response.data.playerList[0].gameRoomId);
+      // setInterval(refreshGame(gameId), 2000);
+      toggleRoomDiv();
+      setInterval( function() { refreshGame(gameId); }, 500 );
+      
+
+    }, (error) => {
+      console.log(error);
+    });
+
+  }
+
+
+
+function refreshGame(gameId) {
+
+  // console.log("here2", gameId)
+  
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+  // const url = 'http://localhost:5000/'
+
+  // var gameId = '0d3eab4d-60fd-4988-a960-fdaab216e888';
+  // var gameId = '61f1bf5e-58a5-43c9-9a68-581256d223f5';
+
+  var refreshAPI = 'mafia/v1/updateGame/';
+
+  var formUrl = url+refreshAPI+gameId
+
+  // var config = {
+  //   headers: {'Access-Control-Allow-Origin': '*'}
+  // };
+
+  axios.get(formUrl)
+  .then((response) => {
+
+    var setDiv = document.createElement('div');
+
+    var gameIdDiv = document.createElement('div');
+    var gId = document.createTextNode(response.data.playerList[0].gameRoomId)
+    gameIdDiv.appendChild(gId);
+
+    setDiv.appendChild(gameIdDiv);
+
+    // console.log(gId);
+
+    pList = response.data.playerList
+    // console.log(pList);
+    
+
+    
+    pList.forEach(function (player) {
+        
+        var brk = document.createElement('br');
+
+        var iDiv = document.createElement('text');
+        var tn1 = document.createTextNode(player.playerName)
+        iDiv.appendChild(tn1);
+
+        var idAttr = document.createAttribute("id");
+        idAttr.value = player.playerId;
+
+        iDiv.setAttributeNode(idAttr);
+
+        // document.getElementById('myDIV').appendChild(iDiv);
+        // document.getElementById('myDIV').appendChild(brk);
+
+        setDiv.appendChild(iDiv);
+        setDiv.appendChild(brk);
+    });
+
+    console.log(setDiv);
+    document.getElementById("gameRoom").innerHTML = setDiv.innerHTML
+
+
+    // console.log(response.status);
+    // console.log(response.statusText);
+    // console.log(response.headers);
+    // console.log(response.config);
+  });
+  
+  // fetch(refreshAPI, {
+  //       method: 'get'
+  //   })
+  //   .then(response => response.json())
+  //   .then(jsonData => console.log(jsonData))
+  //   .catch(err => {
+  //           //error block
+  //       })
+
+}
+
+function toggleHostDiv() {
+  var x = document.getElementById("joinhost");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function toggleRoomDiv() {
+  var x = document.getElementById("gameRoom");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+</script>
+
+</body>
+</html>
