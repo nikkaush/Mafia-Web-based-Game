@@ -170,11 +170,16 @@ public class GamePlay {
 	}
 	
 	public void mafiaAction() {
-		for(Map.Entry<String, List<String>> es : displayMap.entrySet()) {
-			if(es.getValue().size() == 2) {
-				killed = es.getKey();
-			}
+		for(String k : displayMap.keySet()) {
+			killed = k;
+			break;
 		}
+		
+//		for(Map.Entry<String, List<String>> es : displayMap.entrySet()) {
+//			if(es.getValue().size() == 2) {
+//				killed = es.getKey();
+//			}
+//		}
 		
 		clearSelection();
 	}
@@ -295,12 +300,17 @@ public class GamePlay {
 				}
 			}
 			
+			
+			
 		}
 			
 		else
 			msg1 = "No one was killed by Mafia's";
 		
-		msg2 = saved + " was saved by the doctor";
+		if(saved.length() > 0)
+			msg2 = saved + " was saved by the doctor";
+		else
+			msg2 = "No one was saved by the doctor";
 		
 		String msg3 = "Time to vote out the Mafia";
 		

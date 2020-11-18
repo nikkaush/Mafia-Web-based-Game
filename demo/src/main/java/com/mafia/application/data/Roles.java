@@ -8,7 +8,7 @@ public class Roles {
 	public static Map<Integer, String> mp = new HashMap<>();
 	static {
 		mp.put(1, "Mafia");
-		mp.put(2, "Mafia");
+		mp.put(2, "Citizen");
 		mp.put(3, "Doctor");
 		mp.put(4, "Inspector");
 		mp.put(5, "Citizen");
