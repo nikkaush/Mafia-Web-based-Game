@@ -1,0 +1,31 @@
+<!DOCTYPE html>    
+<html>    
+<head>    
+    <title>Leaderboards</title>    
+    <link rel="stylesheet" type="text/css" href="css/style.css">    
+    <link rel="stylesheet" type="text/css" href="css/leaderboards.css">   
+    <script type="text/javascript" src="./js/leaderboards_search.js"></script> 
+</head>    
+<body onload=>    
+    <h2>Leaderboards</h2><br>    
+    <div class="login">    
+        <form id="login" method="get" action="login.php">    
+         
+            <!-- <input type="text" -->
+            <input type="button" id="log" onclick="location.href='leaderboards.html?search=Wins';" value="Top Players" >       
+            <br><br>
+            <input type="button" id="log" onclick="location.href='leaderboards.html?search=Mafia_Wins';" value="Top Mafia Players" >       
+            <br><br>    
+            <input type="button" id="log" onclick="location.href='leaderboards.html?search=Nonmafia_Wins';" value="Top Nonmafia Players" >       
+            <br><br>    
+        </form>
+        <form name="search" onsubmit="return leaderboards_search()" >
+            <input type="text" id="leaderboard_text" name="display_name"><br><br>
+            <!-- <input type="submit" onsubmit="return leaderboards_search();" value="Submit"> -->
+        </form>
+            
+             
+    </div>    
+</body>    
+<script type="text/javascript" src="./js/leaderboards.js"></script>
+</html> 
