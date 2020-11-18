@@ -146,7 +146,7 @@ public class GamePlay {
 	
 	public void setTurn(String role) {
 		for(Player p : playerList) {
-			if(role.equals("vote")) {
+			if(role.equals("Vote")) {
 				p.turn = true;
 			} else {
 				if(p.role.equals(role))
