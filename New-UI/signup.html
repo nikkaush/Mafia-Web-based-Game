@@ -1,0 +1,40 @@
+<!DOCTYPE html>    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<html>    
+<head>    
+    <title>Mafia Signup</title>    
+    <link rel="stylesheet" type="text/css" href="css/style.css">   
+    <link rel="stylesheet" type="text/css" href="css/signup.css"> 
+</head>    
+<body>    
+    <h2>Signup</h2><br>    
+    <div class="main">  
+
+        <div>
+            <form id="signup-form" name="signup" onsubmit="return signup_user()" >
+                <label><b>Player Name:</b></label>    
+                <input id="displayname-field" type="text" name="pname" id="pname" class="textStyle" placeholder="Player name" required>
+                <br><br>
+                <br><br>  
+                <label><b>Password:</b>    
+                </label>    
+                <input id="password-field" type="text" class="textStyle" name="tb1" placeholder="Password" required>    
+                <br><br> 
+                <input type="submit" class="log" value="Signup" onclick="">
+            </form>
+            <br><br>
+            <div class="signup-return" id="signup-return-bad" style="display: none;">Player Name or Password already used!</div>
+            <div class="signup-return" id="signup-return-good" style="display: none">You are now signed up! Return to the homepage.
+                <br><br>  
+                <input type="button" class="log" onclick="location.href='index.html';" value="Homepage" >
+            </div>
+                
+            
+        </div>
+            
+    </div>
+
+</body>    
+<script type="text/javascript" src="./js/signup.js"></script>
+</html> 
