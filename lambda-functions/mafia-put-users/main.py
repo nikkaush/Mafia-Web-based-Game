@@ -6,10 +6,10 @@ def lambda_handler(event, context):
     # TODO implement
     # try:
     # headers = {"headers": event.headers}
-    connection = mysql.connector.connect(host='mafia-database-01.ckkqskhi5h3i.us-east-1.rds.amazonaws.com',
-                                         database='mafia_database_001',
-                                         user='admin',
-                                         password='mafiaadminpassword514')
+    connection = mysql.connector.connect(host='DATABASE_URL',
+                                         database='DATABASE_NAME',
+                                         user='DATABASE_USERNAME',
+                                         password='DATABASE_PASSWORD')
     if "Display_Name" in event["body"] and "Password" in event["body"]:
         sql_select_Query = "select * from Users where Display_Name='{}'".format(event["body"]["Display_Name"])
         cursor = connection.cursor()

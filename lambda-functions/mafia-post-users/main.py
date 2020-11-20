@@ -7,10 +7,10 @@ def lambda_handler(event, context):
     # "INSERT INTO Users (Display_Name, Password, Date_Created) VALUES ('Nate_Test_3', 'asdf', '0000-00-00 00:00:00')"
     # TODO implement
     # headers = {"headers": event.headers}
-    connection = mysql.connector.connect(host='mafia-database-01.ckkqskhi5h3i.us-east-1.rds.amazonaws.com',
-         database='mafia_database_001',
-         user='admin',
-         password='mafiaadminpassword514')
+    connection = mysql.connector.connect(host='DATABASE_URL',
+                                         database='DATABASE_NAME',
+                                         user='DATABASE_USERNAME',
+                                         password='DATABASE_PASSWORD')
     if "Display_Name" not in event["body"] or "Password" not in event["body"]:
         return {
                 "statusCode": 400,

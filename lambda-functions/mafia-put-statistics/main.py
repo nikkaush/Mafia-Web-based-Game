@@ -5,10 +5,10 @@ from mysql.connector import Error
 def lambda_handler(event, context):
     # TODO implement
     # try:
-    connection = mysql.connector.connect(host='mafia-database-01.ckkqskhi5h3i.us-east-1.rds.amazonaws.com',
-                                         database='mafia_database_001',
-                                         user='admin',
-                                         password='mafiaadminpassword514')
+    connection = mysql.connector.connect(host='DATABASE_URL',
+                                         database='DATABASE_NAME',
+                                         user='DATABASE_USERNAME',
+                                         password='DATABASE_PASSWORD')
                                          
     body_dict = event["body"]
     player_pid = body_dict["pid"]

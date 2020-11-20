@@ -7,10 +7,10 @@ def lambda_handler(event, context):
     # try:
     print(event)
     # headers = {"headers": event.headers}
-    connection = mysql.connector.connect(host='mafia-database-01.ckkqskhi5h3i.us-east-1.rds.amazonaws.com',
-                                         database='mafia_database_001',
-                                         user='admin',
-                                         password='mafiaadminpassword514')
+    connection = mysql.connector.connect(host='DATABASE_URL',
+                                         database='DATABASE_NAME',
+                                         user='DATABASE_USERNAME',
+                                         password='DATABASE_PASSWORD')
                                          
     if "User_ID" in event["headers"]:
         sql_select_Query = "select * from Users where User_ID= " + event["headers"]["User_ID"]
