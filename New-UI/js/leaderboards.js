@@ -9,7 +9,7 @@ if (searchString != null) {
         "Stat_Type" : "Wins"     
     }
     console.log(JSON.stringify(params));
-    var reqURL = "https://zpikv0u2x1.execute-api.us-east-1.amazonaws.com/test/user-statistics?";
+    var reqURL = env.x_api_url + "test/user-statistics?";
     if ((searchString == "Wins") || (searchString == "Mafia_Wins") || (searchString == "Nonmafia_Wins")) {
         reqURL += "stat_type=" + searchString;
     } else {
@@ -18,7 +18,7 @@ if (searchString != null) {
     
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", reqURL, false);
-    xhttp.setRequestHeader('x-api-key', '7stiazlX4l4A9xKTohMgX2A7CKUFxn5U3gSVZNe6');
+    xhttp.setRequestHeader('x-api-key', env.x_api_key);
     xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
     // xhttp.setRequestHeader('Stat_Type', 'Wins');
     var sendJson = JSON.stringify(params);

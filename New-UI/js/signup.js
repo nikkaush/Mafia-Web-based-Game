@@ -11,10 +11,10 @@ function signup_user() {
 
     const options = {
         // headers: {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'}
-        headers: {'x-api-key': '7stiazlX4l4A9xKTohMgX2A7CKUFxn5U3gSVZNe6'}
+        headers: {'x-api-key': env.x_api_key}
       };
     
-      var formUrl = 'https://zpikv0u2x1.execute-api.us-east-1.amazonaws.com/test/users';
+      var formUrl = env.x_api_url + 'test/users';
     
       var gameId ;
     
