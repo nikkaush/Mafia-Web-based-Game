@@ -85,6 +85,7 @@
 <script type="text/javascript" src="./js/login.js"></script>
 <script>
 
+axios.defaults.headers.common['x-api-key'] = env.x_api_key;
 
 function guestLogin() {
     console.log('guest login');
@@ -107,6 +108,7 @@ function guestLogin() {
 
 
 function hostGame() {
+  console.log("hostign")
   
   const options = {
     headers: {'x-api-key': env.x_api_key}
@@ -193,12 +195,16 @@ function refreshGame() {
 // const url = 'http://localhost:5000/'
 const url = env.x_api_url
 
+const options = {
+    headers: {"x-api-key": env.x_api_key}
+};
 
-var refreshAPI = 'mafia/updateGame/';
+
+var refreshAPI = 'mafia/updategame/';
 
 var formUrl = url+refreshAPI+gameId
 
-axios.get(formUrl)
+axios.get(formUrl, {}, options)
 .then((response) => {
 
   pList = response.data.playerList
@@ -261,7 +267,7 @@ function refreshGamePlay() {
 
     var formUrl = url+refreshAPI+gameId
 
-    axios.get(formUrl, null, options)
+    axios.get(formUrl, {}, options)
     .then((response) => {
 
     // pList = response.data.playerList
@@ -311,7 +317,7 @@ var refreshAPI = 'mafia/refreshselection/';
 
 var formUrl = url+refreshAPI+gameId
 
-axios.get(formUrl, null, options)
+axios.get(formUrl, {}, options)
 .then((response) => {
 
 pList = response.data.playerList
