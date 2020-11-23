@@ -9,7 +9,7 @@ if (searchString != null) {
         "Stat_Type" : "Wins"     
     }
     console.log(JSON.stringify(params));
-    var reqURL = env.x_api_url + "test/user-statistics?";
+    var reqURL = env.x_api_url + "user-statistics?";
     if ((searchString == "Wins") || (searchString == "Mafia_Wins") || (searchString == "Nonmafia_Wins")) {
         reqURL += "stat_type=" + searchString;
     } else {

@@ -14,7 +14,7 @@ function signup_user() {
         headers: {'x-api-key': env.x_api_key}
       };
     
-      var formUrl = env.x_api_url + 'test/users';
+      var formUrl = env.x_api_url + 'users';
     
       var gameId ;
     

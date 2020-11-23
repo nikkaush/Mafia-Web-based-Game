@@ -1,0 +1,413 @@
+<!DOCTYPE html>    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<html>    
+<head>    
+    <title>Login Form</title>    
+    <link rel="stylesheet" type="text/css" href="css/style.css">    
+</head>    
+<body>    
+    <div style="display: none;" id="login-info" display_name=""></div>
+    <h2>Login Page</h2><br>    
+    <div class="main">  
+
+        <input type="hidden" id="gameId" />
+
+        <div id="welcome">
+                <input type="button" class="log" id="" onclick="guestLogin()" value="Play as a guest" >       
+                <br><br>    
+                <input type="button" class="log" onclick="location.href='signup.html';" value="Sign Up">       
+                <br><br>  
+                <input type="button" class="log" onclick="go_to_login()" value="Log In ">       
+                <br><br>  
+                <input type="button" class="log" onclick="location.href='leaderboards.html';" value="Leaderboards" >
+        </div>
+    
+        <div id="joinhost" style="display: none;">
+            <label><b>Player name: 
+            </b>    
+            </label>    
+            <input type="text" name="pname" id="pname" class="textStyle" placeholder="Player name">    
+            <br><br>
+            <button class="log" onclick="toggleHostDiv(); hostGame();">Host a Game</button>
+            <div onsubmit="toggleHostDiv(); joinGame(); ">
+            <!-- <input name="tb1" type="text">  -->
+            <br><br>  
+            <label><b>Enter Game id: 
+            </b>    
+            </label>    
+            <input type="text" class="textStyle" name="tb1" placeholder="Game id" >    
+            <br><br> 
+
+            <input type="button" class="log" value="Join a game" onclick="toggleHostDiv(); joinGame(document.getElementsByName('tb1')[0].value)">
+            </div>
+            
+        </div>
+
+        <div id="gameRoom" style="display: none;">
+          <h2 id="gameRoomId"></h2>
+          <input type="button" value="Update" onclick="refreshGame();"/><br><br>
+          <div id="gamePlayers"></div>
+          <input type="submit" class="log" value="Start Game" placeholder="Start Game" onclick="gamePlay();"> 
+        </div>
+
+        <div id="gamePlay" style="display: none;">
+            <input type="hidden" id="isHost" />
+            <h2 id="role"></h2>
+            <input type="button" value="Update" onclick="refreshGamePlay1();"/><br><br>
+            <div id="gamePlayPlayers"></div>
+            <!-- <input type="submit" class="log" value="Start Game" placeholder="Start Game" onsubmit="">  -->
+          </div>
+
+        <div id="gameLogin" style="display: none;">
+          <div>
+              <form id="login-form" name="login" onsubmit="return login_user()" >
+                  <label><b>Player Name:</b></label>    
+                  <input id="displayname-field" type="text" name="pname" id="pname" class="textStyle" placeholder="Player name" required>
+                  <br><br>
+                  <br><br>  
+                  <label><b>Password:</b>    
+                  </label>    
+                  <input id="password-field" type="password" class="textStyle" name="tb1" placeholder="Password" required>    
+                  <br><br> 
+                  <input type="submit" class="log" value="login" onclick="">
+              </form>
+              <br><br>
+              <div class="login-return" id="login-return-bad" style="display: none; color: white;">Incorrect Login Info</div>
+          </div>
+        </div>
+
+        
+        
+           
+</div>    
+<script type="text/javascript" src="./js/env.js"></script>   
+<script type="text/javascript" src="./js/login.js"></script>
+<script>
+
+
+function guestLogin() {
+    console.log('guest login');
+    document.getElementById("welcome").style.display = "none";
+    toggleHostDiv();
+  }
+
+  function gamePlay() {
+    toggleRoomDiv()
+    toggleGameRoomDiv();
+    if(document.getElementById("isHost").value === "true"){
+      startGame();
+    }else{
+      refreshGamePlay();
+    }
+    
+
+  }
+
+
+
+function hostGame() {
+  
+  const options = {
+    headers: {'x-api-key': env.x_api_key}
+  };
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+  // const url = 'http://localhost:5000/'
+  const url = env.x_api_url
+
+  var hostAPI = 'mafia/host/';
+
+  var formUrl = url+hostAPI
+
+  var gameId ;
+
+  axios.post(formUrl, {
+    pid: document.getElementById("pname").value ,
+    pname: document.getElementById("pname").value
+  }, options)
+  .then((response) => {
+    gameId = response.data.playerList[0].gameRoomId;
+    // console.log("here",response.data.playerList[0].gameRoomId);
+    toggleRoomDiv();
+  
+    document.getElementById("gameRoomId").innerHTML = gameId;
+    document.getElementById("gameId").value = gameId;
+
+    document.getElementById("isHost").value = "true";
+    // setInterval( function() { refreshGame(gameId); }, 800 );
+    // refreshGame(gameId);
+
+}, (error) => {
+  console.log(error);
+});
+
+}
+
+function joinGame(gameId) {
+
+  console.log('here 3', gameId)
+
+  document.getElementById("gameRoomId").innerHTML = gameId;
+  document.getElementById("gameId").value = gameId;
+
+  const options = {
+    headers: {'x-api-key': env.x_api_key}
+  };
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+  // const url = 'http://localhost:5000/'
+  const url = env.x_api_url
+
+  var joinAPI = 'mafia/join/';
+
+  var formUrl = url+joinAPI+gameId
+
+
+
+  axios.post(formUrl, {
+    pid: document.getElementById("pname").value,
+    pname: document.getElementById("pname").value
+  }, options)
+  .then((response) => {
+
+    toggleRoomDiv();
+    // setInterval( function() { refreshGame(gameId); }, 500 );
+    
+
+  }, (error) => {
+    console.log(error);
+  });
+
+
+}
+
+function refreshGame() {
+
+  var gameId = document.getElementById("gameId").value;
+
+// console.log("here2", gameId)
+
+// const proxyurl = "https://cors-anywhere.herokuapp.com/";
+// const url = 'http://mafianight-env.eba-xpu8pbj5.us-east-1.elasticbeanstalk.com'
+// const url = 'http://localhost:5000/'
+const url = env.x_api_url
+
+
+var refreshAPI = 'mafia/updateGame/';
+
+var formUrl = url+refreshAPI+gameId
+
+axios.get(formUrl)
+.then((response) => {
+
+  pList = response.data.playerList
+  console.log(pList);
+  
+  var new_body_content = '';
+  pList.forEach(function (player) {
+      new_body_content += '<label><b><input type="button" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+     });
+
+document.getElementById("gamePlayers").innerHTML = new_body_content;
+
+});
+
+
+}
+
+function startGame() {
+
+  const options = {
+    headers: {'x-api-key': env.x_api_key}
+  };
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const url = 'http://mafiabackend-env.eba-qspfgq2q.us-east-1.elasticbeanstalk.com/'
+  // const url = 'http://localhost:5000/'
+  const url = env.x_api_url
+  
+  var hostAPI = 'mafia/startgame/';
+  
+  var formUrl = url+hostAPI+document.getElementById("gameId").value;
+  
+  var gameId ;
+  
+  axios.post(formUrl, null, options)
+  .then((response) => {
+  
+    refreshGamePlay();
+  
+  }, (error) => {
+    console.log(error);
+  });
+  
+  }
+
+function refreshGamePlay() {
+
+    var gameId = document.getElementById("gameId").value;
+
+    // console.log("here2", gameId)
+    const options = {
+      headers: {'x-api-key': env.x_api_key}
+    };
+
+    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    // const url = 'http://mafianight-env.eba-xpu8pbj5.us-east-1.elasticbeanstalk.com'
+    // const url = 'http://localhost:5000/'
+    const url = env.x_api_url
+
+    var refreshAPI = 'mafia/refreshselection/';
+
+    var formUrl = url+refreshAPI+gameId
+
+    axios.get(formUrl, null, options)
+    .then((response) => {
+
+    // pList = response.data.playerList
+    // console.log(response.data);
+
+    var new_body_content = '';
+  
+    
+    pList.forEach(function (player) {
+        if(player.playerName === document.getElementById("pname").value){
+          document.getElementById("role").innerHTML = '<h2>'+player.playerName+ ', you are a '+player.role + '!</h2';
+            if(player.turn === true){
+              new_body_content += '<h3>Time to play!</h3';
+            }
+        }else{
+          var name =  " '"+player.playerName+"' ";
+          var onclk = ' onclick="updateGamePlay('+ name +');" ';
+          new_body_content += '<label><b><input type="button" '+onclk+' class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+  
+        }
+      });
+
+    document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+
+    // setInterval( function() { refreshGamePlay1(); }, 5000 );
+
+});
+
+
+}
+
+function refreshGamePlay1() {
+
+var gameId = document.getElementById("gameId").value;
+const options = {
+    headers: {'x-api-key': env.x_api_key}
+};
+
+// console.log("here2", gameId)
+
+// const proxyurl = "https://cors-anywhere.herokuapp.com/";
+// const url = 'http://mafianight-env.eba-xpu8pbj5.us-east-1.elasticbeanstalk.com'
+// const url = 'http://localhost:5000/'
+const url = env.x_api_url;
+
+var refreshAPI = 'mafia/refreshselection/';
+
+var formUrl = url+refreshAPI+gameId
+
+axios.get(formUrl, null, options)
+.then((response) => {
+
+pList = response.data.playerList
+// console.log(response.data);
+
+var new_body_content = '';
+
+pList.forEach(function (player) {
+    if(player.playerName === document.getElementById("pname").value){
+      document.getElementById("role").innerHTML = '<h2>'+player.playerName+ ', you are a '+player.role + '!</h2';
+        if(player.turn === true){
+          new_body_content += '<h3>Time to play!</h3';
+        }
+    }else{
+      var name = " '"+player.playerName+"' ";
+          var onclk = ' onclick="updateGamePlay('+ name +');" ';
+          new_body_content += '<label><b><input type="button" '+onclk+' class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+  
+      // new_body_content += '<label><b><input type="button" onclick="updateGamePlay("'+player.playerName+'");" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+
+    }
+  });
+
+document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+
+});
+
+
+}
+
+function updateGamePlay(sid){
+  var gameId = document.getElementById("gameId").value;
+
+  // console.log("here2", gameId)
+
+  // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const url = 'http://mafianight-env.eba-xpu8pbj5.us-east-1.elasticbeanstalk.com'
+  // const url = 'http://localhost:5000/'
+  const options = {
+    headers: {'x-api-key': env.x_api_key}
+  };
+  const url = env.x_api_url;
+
+  var refreshAPI = 'mafia/updateselection/'; //{gameId}/{pid}/{sid}/
+
+  var formUrl = url+refreshAPI+gameId+'/'+document.getElementById("pname").value +'/'+ sid;
+  alert(formUrl);
+
+  axios.get(formUrl, null, options)
+  .then((response) => {
+
+  pList = response.data.playerList
+  // console.log(response.data);
+
+  var new_body_content = '<h3> '+response.data.returnMessage+ '</h3';
+  pList.forEach(function (player) {
+      if(player.playerName === document.getElementById("pname").value){
+        document.getElementById("role").innerHTML = '<h2> You are a '+player.role + '!</h2';
+      }
+      new_body_content += '<label><b><input type="button" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+    });
+
+  document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+
+});
+}
+
+function toggleHostDiv() {
+  var x = document.getElementById("joinhost");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+function toggleRoomDiv() {
+  var x = document.getElementById("gameRoom");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function toggleGameRoomDiv(){
+  var x = document.getElementById("gamePlay");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+</script>
+</body>    
+</html> 

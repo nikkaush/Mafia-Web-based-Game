@@ -12,7 +12,7 @@ function login_user() {
         headers: {'x-api-key': env.x_api_key}
       };
     
-      var formUrl = env.x_api_url + 'test/users';
+      var formUrl = env.x_api_url + 'users';
     
       axios.put(formUrl, {
         "Display_Name": display_name,
