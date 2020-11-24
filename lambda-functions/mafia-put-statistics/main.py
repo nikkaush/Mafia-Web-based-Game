@@ -11,12 +11,16 @@ def lambda_handler(event, context):
                                          password='DATABASE_PASSWORD')
                                          
     body_dict = event["body"]
-    player_pid = body_dict["pid"]
-    player_id = player_pid.replace("p", "")
-    player_id = int(player_id)
+    player_pname = body_dict["pname"]
     player_won = body_dict["won"]
     player_maf = body_dict["mafia"]
     player_votes = body_dict["correctVotes"]
+
+    sql_get_id_query = 'SELECT * from Users WHERE Display_Name="{}"'.format(player_pname)
+    cursor = connection.cursor()
+    cursor.execute(sql_get_id_query)
+    records = cursor.fetchall()
+    player_id = records[0][0]
     
     if player_won:
         if player_maf:

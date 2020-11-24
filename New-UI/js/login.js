@@ -26,7 +26,7 @@ function login_user() {
             document.getElementById("pname").value = display_name;
             document.getElementById("gameLogin").style.display = "none";
             document.getElementById("joinhost").style.display = "block";
-            document.getElementById("login-info").logged_in = true;
+            document.getElementById("login-info").classList.add("logged-in");
             
         }
     
