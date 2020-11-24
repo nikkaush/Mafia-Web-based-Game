@@ -329,15 +329,17 @@ var currTurn = false
 var dispMsg1 = ''
 var dispMsg2 = ''
 var dispMsg3 = ''
+var dispMsg4 = ''
 var trueRoles = new Set();
 
 var statusKeys = [];
 for(var k in response.data.displayMap) statusKeys.push(k);
-// statusKeys.forEach(function (killed){
-//   alert(response.data.displayMap.killed);
-//   //
-// });
-console.log('/////////////////////////', statusKeys);
+statusKeys.forEach(function (killed){
+  pid = response.data.displayMap.killed;
+  dispMsg4 += '<label> <h3>'+ killed+' was selected to be killed by '+pid +' </h3> </label>';
+
+});
+// console.log('/////////////////////////', statusKeys);
 
 pList.forEach(function (player) {
     
@@ -373,7 +375,7 @@ if(trueRoles.size > 1) {
   }
 }
 
-var topDisp = dispMsg1 + dispMsg2;
+var topDisp = dispMsg1 + dispMsg2 + dispMsg4;
 
 console.log('~~~~~~~~~~~~~~~~~~~~~```', currTurn);
 if(currTurn === true) {
