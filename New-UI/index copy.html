@@ -331,6 +331,14 @@ var dispMsg2 = ''
 var dispMsg3 = ''
 var trueRoles = new Set();
 
+var statusKeys = [];
+for(var k in response.data.displayMap) statusKeys.push(k);
+// statusKeys.forEach(function (killed){
+//   alert(response.data.displayMap.killed);
+//   //
+// });
+console.log('/////////////////////////', statusKeys);
+
 pList.forEach(function (player) {
     
     if(player.turn === true) {
@@ -400,23 +408,23 @@ function updateGamePlay(sid){
   var refreshAPI = 'mafia/updateselection/'; //{gameId}/{pid}/{sid}/
 
   var formUrl = url+refreshAPI+gameId+'/'+document.getElementById("pname").value +'/'+ sid;
-  alert(formUrl);
+  // alert(formUrl);
 
-  axios.get(formUrl, null, options)
+  axios.put(formUrl, {}, options)
   .then((response) => {
 
-  pList = response.data.playerList
-  // console.log(response.data);
+  // pList = response.data.playerList
+  // // console.log(response.data);
 
-  var new_body_content = '<h3> '+response.data.returnMessage+ '</h3';
-  pList.forEach(function (player) {
-      if(player.playerName === document.getElementById("pname").value){
-        document.getElementById("role").innerHTML = '<h2> You are a '+player.role + '!</h2';
-      }
-      new_body_content += '<label><b><input type="button" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
-    });
+  // var new_body_content = '<h3> '+response.data.returnMessage+ '</h3>';
+  // pList.forEach(function (player) {
+  //     if(player.playerName === document.getElementById("pname").value){
+  //       document.getElementById("role").innerHTML = '<h2> You are a '+player.role + '!</h2>';
+  //     }
+  //     new_body_content += '<label><b><input type="button" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+  //   });
 
-  document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+  // document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
 
 });
 }
