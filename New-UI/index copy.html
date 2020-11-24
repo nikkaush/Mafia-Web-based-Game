@@ -324,24 +324,60 @@ pList = response.data.playerList
 // console.log(response.data);
 
 var new_body_content = '';
+var currTurn = false
+
+var dispMsg1 = ''
+var dispMsg2 = ''
+var dispMsg3 = ''
+var trueRoles = new Set();
 
 pList.forEach(function (player) {
-    if(player.playerName === document.getElementById("pname").value){
-      document.getElementById("role").innerHTML = '<h2>'+player.playerName+ ', you are a '+player.role + '!</h2';
-        if(player.turn === true){
-          new_body_content += '<h3>Time to play!</h3';
-        }
-    }else{
-      var name = " '"+player.playerName+"' ";
-          var onclk = ' onclick="updateGamePlay('+ name +');" ';
-          new_body_content += '<label><b><input type="button" '+onclk+' class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
+    
+    if(player.turn === true) {
+        trueRoles.add(player.role);
+    }
+    if(currTurn === false && player.playerName === document.getElementById("pname").value){
+      dispMsg1 = '<h2>'+player.playerName+ ', you are a '+player.role + '!</h2>';
+
+      if(player.turn === true) {
+          currTurn = true;
+          dispMsg2 = '<label> <h3> Time to play your move! </h3> </label>'; 
+      } else {
+        dispMsg2 = '<label> <h3> Please wait for your turn </h3> </label>';
+      }
+    }
+    var name = " '"+player.playerName+"' ";
+    var onclk = ' onclick="updateGamePlay('+ name +');" ';
+    new_body_content += '<label><b><input type="button" '+onclk+' class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
   
       // new_body_content += '<label><b><input type="button" onclick="updateGamePlay("'+player.playerName+'");" class="log" name="' + player.playerName+ '" value="' + player.playerName+ '" ></b></label><br><br> ';
-
-    }
   });
 
-document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+if(trueRoles.size > 1) {
+  dispMsg3 = '<label> <h3> Vote out the mafia </h3> </label>';
+} else {
+  if(trueRoles.has('Mafia')) {
+    dispMsg3 = '<label> <h3> Kill someone </h3> </label>';
+  } else if(trueRoles.has('Doctor')) {
+    dispMsg3 = '<label> <h3> Save someone </h3> </label>';
+  } else if(trueRoles.has('Inspector')) {
+    dispMsg3 = '<label> <h3> Try to catch the mafia </h3> </label>';
+  }
+}
+
+var topDisp = dispMsg1 + dispMsg2;
+
+console.log('~~~~~~~~~~~~~~~~~~~~~```', currTurn);
+if(currTurn === true) {
+  topDisp += dispMsg3;
+  console.log('~~~~~~~~~~~~~~~~~~~~~```   here' );
+  document.getElementById("gamePlayPlayers").innerHTML = new_body_content;
+} else {
+  document.getElementById("gamePlayPlayers").innerHTML = '';
+}
+
+document.getElementById("role").innerHTML = topDisp;
+
 
 });
 
