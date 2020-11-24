@@ -3,11 +3,14 @@ import mysql.connector
 from mysql.connector import Error
 
 def lambda_handler(event, context):
-    
-    connection = mysql.connector.connect(host='DATABASE_URL',
-                                         database='DATABASE_NAME',
-                                         user='DATABASE_USERNAME',
-                                         password='DATABASE_PASSWORD')
+    DATABASE_URL = ""
+    DATABASE_NAME = ""
+    DATABASE_USERNAME = ""
+    DATABASE_PASSWORD = ""
+    connection = mysql.connector.connect(host=DATABASE_URL,
+                                         database=DATABASE_NAME,
+                                         user=DATABASE_USERNAME,
+                                         password=DATABASE_PASSWORD)
     # return {"body": str(event["queryStringParameters"])}
     if event["queryStringParameters"] == None:
         sql_select_Query = "select * from User_Statistics"
@@ -47,7 +50,7 @@ def lambda_handler(event, context):
         body_return = {"Statistic_ID": row[0], "User_ID": row[1], "Wins": row[2], "Losses": row[3], "Mafia_Wins": row[4], "Mafia_Losses": row[5], "Nonmafia_Wins": row[6], "Nonmafia_Losses": row[7], "Games_Played": row[8]}
         
     elif "stat_type" in event["queryStringParameters"]:
-        sql_select_Query = "SELECT * FROM mafia_database_001.User_Statistics ORDER BY {} DESC LIMIT 100;".format(event["queryStringParameters"]["stat_type"])
+        sql_select_Query = "SELECT * FROM User_Statistics ORDER BY {} DESC LIMIT 100;".format(event["queryStringParameters"]["stat_type"])
         cursor = connection.cursor()
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
