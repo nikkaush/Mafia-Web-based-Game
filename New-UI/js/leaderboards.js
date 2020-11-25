@@ -46,7 +46,7 @@ if (searchString != null) {
 
 
     if (searchString == "Wins") {
-        var leaderboard_ol = '<h2>Leaderboards - Top Players by Wins</h2><br><div class="login"><ol class="leaderboard_list">';
+        var leaderboard_ol = '<h2>Leaderboards - Top Players by Wins</h2><br><div class="login main"><ol class="leaderboard_list">';
         
         var new_body_content = leaderboard_ol;
 
@@ -58,7 +58,7 @@ if (searchString != null) {
         document.getElementsByTagName('body')[0].innerHTML = new_body_content; 
         console.log("here")
     } else if (searchString == "Mafia_Wins") {
-        var leaderboard_ol = '<h2>Leaderboards - Top Players by Mafia Wins</h2><br><div class="login"><ol class="leaderboard_list">';
+        var leaderboard_ol = '<h2>Leaderboards - Top Players by Mafia Wins</h2><br><div class="login main"><ol class="leaderboard_list">';
         
         var new_body_content = leaderboard_ol;
         for (i = 0; i < stats.length; i++) {
@@ -69,7 +69,7 @@ if (searchString != null) {
         document.getElementsByTagName('body')[0].innerHTML = new_body_content; 
         console.log("here")
     } else if (searchString == "Nonmafia_Wins") {
-        var leaderboard_ol = '<h2>Leaderboards - Top Players by Nonmafia Wins</h2><br><div class="login"><ol class="leaderboard_list">';
+        var leaderboard_ol = '<h2>Leaderboards - Top Players by Nonmafia Wins</h2><br><div class="login main"><ol class="leaderboard_list">';
         
         var new_body_content = leaderboard_ol;
         for (i = 0; i < stats.length; i++) {
@@ -80,7 +80,7 @@ if (searchString != null) {
         document.getElementsByTagName('body')[0].innerHTML = new_body_content; 
     } else {
         console.log(myJson);
-        var leaderboard_ol = '<h2>Statistic for ' + searchString + '</h2><br><div class="login"><ol class="leaderboard_list">';
+        var leaderboard_ol = '<h2>Statistic for ' + searchString + '</h2><br><div class="login main"><ol class="leaderboard_list">';
         
         var new_body_content = leaderboard_ol;
         
