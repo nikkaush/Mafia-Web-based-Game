@@ -13,10 +13,10 @@ public class GamePlay {
 	}
 
 
-	int mafiaTime = 30;
-	int doctorTime = 30;
-	int inspectorTime = 30;
-	int voteTime = 60;
+	int mafiaTime = 10;
+	int doctorTime = 10;
+	int inspectorTime = 10;
+	int voteTime = 30;
 	
 	List<String> selectionList = new ArrayList<>();
 	Map<String, String> currSelectionMap;
@@ -131,14 +131,17 @@ public class GamePlay {
 	
 	public void setTurnHelper(int t) {
 		if(t == 0) {
+			this.returnMessage = "Select someone to kill someone.";
 			setTurn("Mafia");
-			returnMessage = "Select unanimously to kill someone.";
+			
 		} else if(t == 1) {
+			this.returnMessage = "Select someone to save. \n You can also save yourself";
 			setTurn("Doctor");
-			returnMessage = "Select someone to save. \n You can also save yourself";
+			
 		} else if(t == 2) {
+			this.returnMessage = "Select someone to see if they are Mafia.";
 			setTurn("Inspector");
-			returnMessage = "Select someone to see if they are Mafia.";
+			
 		} else {
 			setTurn("Vote");
 		}
@@ -322,7 +325,23 @@ public class GamePlay {
 
 	
 	public boolean isGame() {
-		return (numMafiaAlive == 0) || (numCitizenAlive == numMafiaAlive);
-	}
+        boolean gameCont = (numMafiaAlive == 0) || (numCitizenAlive == numMafiaAlive);
+        if (numMafiaAlive == 0) {
+            for (Player player : this.playerList) {
+                if ((!player.role.equals("Mafia")) && (player.isAlive)) {
+                    player.wonGame();
+                }
+            }
+        } else if (numCitizenAlive == numMafiaAlive) {
+            for (Player player : this.playerList) {
+                if (player.role.equals("Mafia")) {
+                    player.wonGame();
+                }
+            }
+        }
+
+        return gameCont;
+
+    }
 
 }

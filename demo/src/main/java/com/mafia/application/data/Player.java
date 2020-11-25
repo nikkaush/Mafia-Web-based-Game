@@ -25,6 +25,10 @@ public class Player {
 	public boolean isWon() {
 		return won;
 	}
+	
+	public void wonGame() {
+        this.won = true;
+    }
 
 	public Player(String playerId, String playerName, String role, String gameRoomId, boolean isHost) {
 		this.playerId = playerId;
